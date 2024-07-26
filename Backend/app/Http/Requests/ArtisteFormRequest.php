@@ -26,7 +26,7 @@ class ArtisteFormRequest extends FormRequest
         return [
             'titre' => ['required','string'],
             'description' => ['required','string'],
-            'image' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'image' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg'],
         ];
     }
 }

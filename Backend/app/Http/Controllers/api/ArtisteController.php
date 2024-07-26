@@ -22,7 +22,7 @@ class ArtisteController extends Controller
             'error' => false,
             'storage' => asset('storage'),
             'message' => "Votre requête a bien réussie",
-             ArtisteResource::collection(Artiste::orderBy("created_at",'DESC')->limit(100))
+             ArtisteResource::collection(Artiste::orderBy("created_at",'DESC')->limit(100)->get())
         ], Response::HTTP_OK);
     }
 
@@ -38,6 +38,7 @@ class ArtisteController extends Controller
         if ($request->hasFile('image')){
             $data['image'] = $request->file('image')->store('images');
         }
+        #$data['image'] = $request->image->image->store('image')
         #dd($data);
         $artiste = Artiste::create($data);
         #dd($artiste);
@@ -70,6 +71,7 @@ class ArtisteController extends Controller
             return \response()->json([
                 'error' => false,
                 'message' => "Votre requête a bien réussie",
+                'storage' => asset('storage'),
                 $artiste
             ], Response::HTTP_OK);
 
@@ -80,23 +82,35 @@ class ArtisteController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Artiste  $artiste
+     * @param Artiste $artiste
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(ArtisteFormRequest $request, $id)
     {
+
+        //dd($id);
         $artiste = Artiste::find($id);
+
         if ($artiste == null){
             return \response()->json([
                 'error' => true,
                 'message' => "L'oeuvre que vous essayez de modifier n'existe pas"
             ]);
         }
+        //dd($artiste);
+
+        $data = $request->validated();
+        dd($data);
+        if ($request->hasFile('image')){
+            $data['image'] = $request->file('image')->store('images');
+        }
+        #$data['image'] = $request->image->store('image');
+        $artiste = Artiste::update($data);
+        dd($artiste);
 
         return \response()->json([
             'error' => false,
             'message' => "Votre oeuvre a bien été modifié",
-            $artiste->update($request->validated()),
             $artiste
         ], Response::HTTP_CREATED);
     }

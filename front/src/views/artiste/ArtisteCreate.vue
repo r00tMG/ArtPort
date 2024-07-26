@@ -26,14 +26,19 @@ export default {
             if(image.value){
                 formData.append('image', image.value)
             }
-            console.log(titre.value, description.value, image.value)
+            console.log(titre.value, description.value, image.value.name)
+
             try {
-                const r = await axios.post('api/artistes',formData,{
-                    headers:{'Content-Type':'application/json'}
+                const token = localStorage.getItem('token')
+                const r = await axios.post('http://localhost:8000/api/artistes',formData,{
+                    headers:{
+                      'Content-Type':'multipart/form-data',
+                      'Authorization' : `Bearer ${token}`
+                    }
                 })
                 artiste.value = await r.data
                 console.log(artiste.value)
-                //await router.push('/artistes')
+                await router.push('/artistes')
             }catch (error) {
                 if (error.response && error.response.status === 422) {
                     errors.value = error.response.data.errors;
@@ -76,7 +81,7 @@ export default {
                     <div v-if="errors.image" class="text-danger">{{ errors.image[0] }}</div>
                 </div>
                 <div class="form-group text-center">
-                    <input class="btn btn-primary"  type="submit" value="Save">
+                  <button class="btn btn-primary"  type="submit" >Save</button>
                 </div>
             </form>
 

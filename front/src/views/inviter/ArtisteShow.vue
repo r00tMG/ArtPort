@@ -13,11 +13,14 @@
             const artiste = ref()
             onMounted(async ()=>{
                 try {
-                    const r = await axios.get(`/api/artistes/${route.params.id}`,{
-                        headers:{'Accept':'application/json'}
+
+                    const r = await axios.get(`http://localhost:8000/api/artistes/${route.params.id}`,{
+                        headers:{
+                          'Accept':'application/json',
+                        }
                     })
                     artiste.value = await r.data
-                    console.log(artiste.value[0].image)
+                    console.log(artiste.value.storage)
                 }catch (error){
                     console.error("Error: Votre requête retourne une erreur",error)
                 }
@@ -35,7 +38,7 @@
         <h3 style="margin-top: -5px; margin-bottom: 90px; font-size: 30px; letter-spacing: 6px" class="underline">Here are some details of {{artiste[0].titre}}.</h3>
         <div class="row" >
             <div class="container w-75 m-auto" >
-                <img :src="artiste[0].image" alt="project pic" class="img-responsive margin " style="display:inline" width="900" height="500" id="project-pic-1">
+                <img :src="artiste.storage + '/' + artiste[0].image" alt="project pic" class="img-responsive margin " style="display:inline" width="900" height="500" id="project-pic-1">
                 <p id="project" class="project-link" >
                     {{ artiste[0].description }}
 <!--                  <router-link :to="`/artistes/show/${artiste.titre}-${artiste.id}`" v-text="artiste.titre"></router-link>-->

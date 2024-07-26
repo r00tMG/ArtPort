@@ -1,25 +1,47 @@
-<script >
+<script lang="js">
 
 import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
 import {onMounted, ref} from "vue";
 import axios from "axios";
-import * as assert from "node:assert";
+import {useRoute} from "vue-router"
+
 
 export default {
     name: "ArtisteIndex",
-    methods: {assert},
     components:{Navbar,Footer},
     setup(){
         const artistes = ref([])
         onMounted(async () => {
-            const r = await axios.get('api/artistes')
+            const token = localStorage.getItem('token')
+            const r = await axios.get('http://localhost:8000/api/artistes',{
+              headers: {
+                'Accept':'application/json',
+                'Authorization' : `Bearer ${token}`
+              }
+            })
             artistes.value = await r.data
-            console.log(artistes.value)
+            //console.log(artistes.value)
         })
-        return{
-            artistes
+
+
+      const route = useRoute()
+      const onDelete = async (id) => {
+          //console.log(id);
+        if(confirm("Êtes-vous sûre?"))
+        {
+          await axios.delete(`http://localhost:8000/api/artistes/${id}`);
+          artistes.value = artistes.value.filter( art => art.id !== id )
         }
+      }
+
+
+
+
+      return{
+        artistes,
+        onDelete
+      }
     }
 }
 
@@ -34,7 +56,7 @@ export default {
     <div class="container-fluid bg1">
         <div class="container w-75 m-auto">
           <div class="d-flex my-4 justify-content-between ">
-            <router-link to="/create" class="btn btn-primary">Create</router-link>
+            <router-link to="/artistes/create" class="btn btn-primary">Create</router-link>
             <h3 style="font-size: 30px" class="underline">Lists of my projects.</h3>
           </div>
           <table class="table table-dark table-responsive">
@@ -43,15 +65,20 @@ export default {
                   <th>Titre</th>
                   <th>Image</th>
                   <th>description</th>
-                  <th>Actions</th>
+                  <th colspan="4">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="artiste in artistes[0]">
+              <tr v-for="artiste in artistes[0]" :key="artiste.id">
                   <td v-text="artiste.titre"></td>
-                  <td><img :src="artiste.image" alt="image du projet" width="60px"></td>
+                  <td><img :src="artistes.storage + '/' + artiste.image" alt="image du projet" width="60px"></td>
                   <td v-text="artiste.description"></td>
-
+                  <td class="d-flex align-items">
+                    <router-link :to="`/artistes/${artiste.id}/edit`" class="btn btn-sm btn-success">Edit</router-link>
+                  </td>
+                <td>
+                    <button class="btn btn-sm btn-danger" @click.prevent="onDelete(artiste.id)">Delete</button>
+                </td>
               </tr>
             </tbody>
         </table>

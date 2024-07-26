@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('artistes',\App\Http\Controllers\api\ArtisteController::class);
+Route::post('register',[RegisteredUserController::class,'store']);
+Route::post('login',[RegisteredUserController::class,'login']);
+
+Route::group(['middleware' => ['auth:sanctum']],function (){
+
+    Route::apiResource('artistes',\App\Http\Controllers\api\ArtisteController::class);
+    Route::get('users', [RegisteredUserController::class,'index']);
+
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
