@@ -51,12 +51,11 @@ export default {
         const r = await axios.put(`http://localhost:8000/api/artistes/${route.params.id}`,formData,{
               headers: {
                 'Accept':'application/json',
-                'Content-Type':'multipart/form-data',
                 'Authorization' : `Bearer ${token}`
               }
             })
-        artiste.value = await r.data
-        console.log(artiste.value)
+
+        console.log((await r.data).value)
         await router.push('/artistes')
       }catch (error) {
         if (error.response && error.response.status === 422) {
@@ -86,7 +85,7 @@ export default {
   <div class="container-fluid bg1">
     <div class="container w-50 bg-light p-5 shadow around m-auto">
       <h3 style="margin-top: -5px; margin-bottom: 90px; font-size: 30px; letter-spacing: 6px" class="text-center underline">Update your projects</h3>
-      {{errors}}
+
       <form @submit.prevent="onSubmit" class="w-50" enctype="multipart/form-data">
         <div class="form-group mb-3">
           <input placeholder="titre" class="form-control" name="titre" v-model="titre" required>

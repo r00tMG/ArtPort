@@ -18,6 +18,9 @@ class CreateArtistesTable extends Migration
             $table->string('titre');
             $table->string('description');
             $table->string('image')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->timestamps();
         });
     }

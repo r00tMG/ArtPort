@@ -55,6 +55,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+
         //event(new Registered($user));
 
         //Auth::login($user);
@@ -103,11 +104,12 @@ class RegisteredUserController extends Controller
                 'message' => 'User Logged In Successfully',
                 'token' => $user->createToken("API TOKEN")->plainTextToken,
                 //'role' => $roles,
+
                 'user' => [
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'role' => $user->role,
+                    'role' => $user->roles,
                 ]
             ], 200);
 

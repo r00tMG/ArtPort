@@ -19,7 +19,10 @@ class ArtisteResource extends JsonResource
             'id' => $this->resource->id,
             'image' => $this->resource->image,
             'titre' => $this->resource->titre,
-            'description' => $this->resource->description
-        ];
+            'description' => $this->resource->description,
+            'user' => new UserResource(
+                $this->resource->user
+            )
+         ];
     }
 }

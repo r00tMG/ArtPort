@@ -7,6 +7,7 @@ use App\Http\Requests\ArtisteFormRequest;
 use App\Http\Resources\ArtisteResource;
 use App\Models\Artiste;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArtisteController extends Controller
@@ -18,11 +19,13 @@ class ArtisteController extends Controller
      */
     public function index()
     {
+        $artistes = Artiste::where('user_id', Auth::id())->orderBy('created_at', 'DESC')->get();
+        //dd($artistes);
         return  response()->json([
             'error' => false,
             'storage' => asset('storage'),
             'message' => "Votre requête a bien réussie",
-             ArtisteResource::collection(Artiste::orderBy("created_at",'DESC')->limit(100)->get())
+             ArtisteResource::collection($artistes)
         ], Response::HTTP_OK);
     }
 
@@ -35,12 +38,17 @@ class ArtisteController extends Controller
     public function store(ArtisteFormRequest $request)
     {
         $data = $request->validated();
+
         if ($request->hasFile('image')){
             $data['image'] = $request->file('image')->store('images');
         }
-        #$data['image'] = $request->image->image->store('image')
         #dd($data);
-        $artiste = Artiste::create($data);
+        $artiste = Artiste::create([
+            'titre' => $data['titre'],
+            'description' => $data['description'],
+            'image' => $data['image'],
+            'user_id' => Auth::id()
+        ]);
         #dd($artiste);
         return \response()->json([
             'error' => false,

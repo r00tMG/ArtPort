@@ -12,7 +12,7 @@ export default {
         const artistes = ref([])
         onMounted(async () => {
 
-            const r = await axios.get('http://localhost:8000/api/artistes',{
+            const r = await axios.get('http://localhost:8000/api/home',{
               headers:{
                 'Accept':`application/json`
               }
@@ -47,8 +47,8 @@ export default {
         <h3 style="margin-top: -5px; margin-bottom: 90px; font-size: 30px; letter-spacing: 6px" class="underline">Here are some of my projects.</h3>
         <div class="row" v-if="artistes[0]">
             <div class="col-md-4" v-for="artiste in artistes[0]" :key="artiste.id">
-                <img :src="artiste.storage + '/' + artiste.image" alt="project pic" class="img-responsive margin" style="display:inline" width="500" height="500" id="project-pic-1">
-                <p id="project" class="project-link"><router-link :to="`/artistes/${artiste.id}/show`" v-text="artiste.titre"></router-link></p>
+                <img :src="artistes.storage + '/' + artiste.image" alt="project pic" class="img-responsive img-fluid margin" style="display:inline" width="500" height="500" id="project-pic-1">
+                <p id="project" class="project-link"><router-link :to="`/show/${artiste.id}`" v-text="artiste.titre"></router-link></p>
             </div>
         </div>
     </div>

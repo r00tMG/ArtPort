@@ -1,6 +1,10 @@
 <script>
+import Dropdown from "@/components/Dropdown.vue";
+
 export default {
-    name: 'Navbar'
+    name: 'Navbar',
+  components: {Dropdown}
+
 }
 </script>
 
@@ -20,6 +24,8 @@ export default {
                     <li><a href="#aboutMe">About Me</a></li>
                     <li><a href="#myPortfolio">My Portfolio</a></li>
                     <li><a href="#contactMe">Contact Me</a></li>
+                  <Dropdown />
+
                 </ul>
             </div>
         </div>

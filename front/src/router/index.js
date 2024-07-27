@@ -23,7 +23,7 @@ const router = createRouter({
       meta:{requiresAuth : true}
     },
     {
-      path: '/artistes/:id/show',
+      path: '/show/:id',
       name: 'artistes.show',
       component: ArtisteShow,
     },

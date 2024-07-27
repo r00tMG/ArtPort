@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ArtisteFormRequest extends FormRequest
 {
@@ -27,6 +28,7 @@ class ArtisteFormRequest extends FormRequest
             'titre' => ['required','string'],
             'description' => ['required','string'],
             'image' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg'],
+
         ];
     }
 }

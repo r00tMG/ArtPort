@@ -14,7 +14,7 @@ class ArtisteFactory extends Factory
     public function definition()
     {
         return [
-            'image' => $this->faker->imageUrl(),
+            'image' => asset('/storage') . $this->faker->imageUrl(),
             'titre' => $this->faker->text(10),
             'description' => $this->faker->text(200)
         ];

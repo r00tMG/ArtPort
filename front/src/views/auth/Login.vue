@@ -21,10 +21,13 @@ export default {
         })
       })
       const data = await r.json()
-      console.log(data.token)
-      if(data.token)
+      console.log(data.user)
+      if(data.token && data.user.role)
       {
         localStorage.setItem('token', data.token)
+        localStorage.setItem('role',data.user.role)
+        localStorage.setItem('name',data.user.name)
+        localStorage.setItem('email',data.user.email)
         await router.push('/artistes')
       }
     }

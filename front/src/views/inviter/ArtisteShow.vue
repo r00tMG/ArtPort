@@ -14,7 +14,7 @@
             onMounted(async ()=>{
                 try {
 
-                    const r = await axios.get(`http://localhost:8000/api/artistes/${route.params.id}`,{
+                    const r = await axios.get(`http://localhost:8000/api/show/${route.params.id}`,{
                         headers:{
                           'Accept':'application/json',
                         }

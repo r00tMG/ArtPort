@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register',[RegisteredUserController::class,'store']);
 Route::post('login',[RegisteredUserController::class,'login']);
+Route::get('home',[\App\Http\Controllers\HomeController::class,'home']);
+Route::get('show/{id}',[\App\Http\Controllers\HomeController::class,'show']);
 
 Route::group(['middleware' => ['auth:sanctum']],function (){
 
