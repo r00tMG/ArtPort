@@ -11,6 +11,9 @@
         setup(){
             const route = useRoute()
             const artiste = ref()
+          const commentaires = ref([])
+          const artiste_id = ref('')
+          const comment = ref('')
             onMounted(async ()=>{
                 try {
 
@@ -20,13 +23,40 @@
                         }
                     })
                     artiste.value = await r.data
-                    console.log(artiste.value.storage)
+                    //console.log(artiste.value.storage)
                 }catch (error){
                     console.error("Error: Votre requête retourne une erreur",error)
                 }
             })
+          const fetchRatings = async () => {
+            const token = localStorage.getItem('token');
+            const r = await axios.get(`http://localhost:8000/api/artistes/${route.params.id}/commentaires`)
+            commentaires.value = await r.data
+            //console.log(ratings.value[0][0])
+
+          }
+          onMounted(async ()=>{
+            await fetchRatings()
+          })
+          const submitComment = async () => {
+            try {
+              const r = await axios.post('http://localhost:8000/api/commentaires', {
+                artiste_id: route.params.id,
+                comment: comment.value
+              });
+              console.log(await r.data)
+              await fetchRatings();
+            } catch (error) {
+              console.error('Erreur lors de la soumission de la notation:', error);
+              alert('Une erreur est survenue lors de la soumission de la notation');
+            }
+          };
             return{
-                artiste
+                artiste,
+              submitComment,
+              artiste_id,
+              comment,
+              commentaires
             }
         }
     }
@@ -43,6 +73,23 @@
                     {{ artiste[0].description }}
 <!--                  <router-link :to="`/artistes/show/${artiste.titre}-${artiste.id}`" v-text="artiste.titre"></router-link>-->
                 </p>
+
+              <div class="w-50 m-auto">
+                <h3 class="text-center my-5">Commentaires</h3>
+                <div v-for="commentaire in commentaires[0]" :key="commentaire.id">
+<!--                  <p><strong>{{ commentaire.user.name }}</strong> ({{ commentaire.commentaire }}/5)</p>-->
+                  <p>{{ commentaire.comment }}</p>
+                </div>
+                <form @submit.prevent="submitComment">
+
+                  <div class="form-group w-25 m-auto mb-2">
+                    <textarea v-model="comment" name="comment" class="form-control" placeholder="Commentaire"></textarea>
+                  </div>
+                  <div class="form-group text-center">
+                    <button class="btn btn-primary" >Soumettre</button>
+                  </div>
+                </form>
+              </div>
             </div>
         </div>
     </div>

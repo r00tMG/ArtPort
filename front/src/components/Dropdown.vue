@@ -6,7 +6,7 @@ export default {
     const token = localStorage.getItem('role')
     const name = localStorage.getItem('name')
     const email = localStorage.getItem('email')
-    console.log(token, name, email)
+    //console.log(token, name, email)
     return {
       token,
       name,

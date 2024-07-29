@@ -45,12 +45,43 @@ export default {
     <!--Second-sec-->
     <div id="myPortfolio" class="container-fluid bg2 text-center">
         <h3 style="margin-top: -5px; margin-bottom: 90px; font-size: 30px; letter-spacing: 6px" class="underline">Here are some of my projects.</h3>
-        <div class="row" v-if="artistes[0]">
-            <div class="col-md-4" v-for="artiste in artistes[0]" :key="artiste.id">
-                <img :src="artistes.storage + '/' + artiste.image" alt="project pic" class="img-responsive img-fluid margin" style="display:inline" width="500" height="500" id="project-pic-1">
+<!--        <div class="row" v-if="artistes[0]">
+            <div class="col-sm-4" v-for="artiste in artistes[0]" :key="artiste.id">
+                <img :src="artistes.storage + '/' + artiste.image" alt="project pic" class="img-responsive img-fluid margin" style="display:inline" width="300" height="300" id="project-pic-1">
                 <p id="project" class="project-link"><router-link :to="`/show/${artiste.id}`" v-text="artiste.titre"></router-link></p>
             </div>
+        </div>-->
+<!--      <div class="container m-auto">
+        <div class="row">
+          <div class="card col-md-4 m-3" v-if="artistes[0]" v-for="artiste in artistes[0]" :key="artiste.id" style="width: 24rem;">
+            <div class="card-header">{{ artiste.user.name }}</div>
+            <img :src="artistes.storage + '/' + artiste.image" class="card-img-top img-fluid" width="200px" height="200px" alt="...">
+            <div class="card-body">
+              <h5  class="card-title"><router-link :to="`/show/${artiste.id}`" v-text="artiste.titre"></router-link></h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
         </div>
+      </div>-->
+        <div class="row" >
+          <div class="col-md-3" v-if="artistes[0]" v-for="artiste in artistes[0]" :key="artiste.id">
+          <div class="card shadow-sm">
+            <img :src="artistes.storage + '/' + artiste.image"  alt="image du produit" class="img-fluid" width="200px" height="200px"/>
+            <div class="card-body">
+              <h5  class="card-title"><router-link :to="`/show/${artiste.id}`" v-text="artiste.titre"></router-link></h5>
+              <p class="card-text">
+                This is a wider card with supporting text below as a natural lead-in t
+                o additional content. This content is a little bit longer.</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-secondary">Like</button>
+                </div>
+                <small class="text-body-secondary">9 mins</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!--Third-sec-->

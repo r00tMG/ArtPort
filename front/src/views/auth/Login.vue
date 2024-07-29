@@ -29,6 +29,8 @@ export default {
         localStorage.setItem('name',data.user.name)
         localStorage.setItem('email',data.user.email)
         await router.push('/artistes')
+      }else{
+        alert("Vos identifiants sont érronés")
       }
     }
     return{

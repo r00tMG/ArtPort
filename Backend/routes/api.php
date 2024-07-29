@@ -15,11 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+# Public api
 Route::post('register',[RegisteredUserController::class,'store']);
 Route::post('login',[RegisteredUserController::class,'login']);
+
 Route::get('home',[\App\Http\Controllers\HomeController::class,'home']);
 Route::get('show/{id}',[\App\Http\Controllers\HomeController::class,'show']);
 
+Route::post('commentaires',[\App\Http\Controllers\CommentaireController::class,'store']);
+Route::get('/artistes/{artiste}/commentaires', [\App\Http\Controllers\CommentaireController::class, 'index']);
+
+# Protected api
 Route::group(['middleware' => ['auth:sanctum']],function (){
 
     Route::apiResource('artistes',\App\Http\Controllers\api\ArtisteController::class);
