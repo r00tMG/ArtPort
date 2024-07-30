@@ -4,10 +4,13 @@ import Navbar from "../../components/Navbar.vue";
 import Footer from "../../components/Footer.vue";
 import {onMounted, ref} from "vue";
 import axios from "axios";
+import {useRoute} from "vue-router";
+import ArtisteLike from "@/views/inviter/ArtisteLike.vue";
 
 export default {
     name: "ArtisteIndex",
-    components:{Navbar,Footer},
+    components:{ArtisteLike, Navbar,Footer},
+
     setup(){
         const artistes = ref([])
         onMounted(async () => {
@@ -20,9 +23,17 @@ export default {
             artistes.value = await r.data
             console.log(artistes.value)
         })
-        return{
-            artistes
-        }
+
+
+
+
+
+
+
+      return{
+        artistes,
+
+      }
     }
 }
 
@@ -66,17 +77,18 @@ export default {
         <div class="row" >
           <div class="col-md-3" v-if="artistes[0]" v-for="artiste in artistes[0]" :key="artiste.id">
           <div class="card shadow-sm">
+            <div class="card-header" v-text="artiste.user.name"></div>
             <img :src="artistes.storage + '/' + artiste.image"  alt="image du produit" class="img-fluid" width="200px" height="200px"/>
             <div class="card-body">
               <h5  class="card-title"><router-link :to="`/show/${artiste.id}`" v-text="artiste.titre"></router-link></h5>
-              <p class="card-text">
+<!--              <p class="card-text">
                 This is a wider card with supporting text below as a natural lead-in t
-                o additional content. This content is a little bit longer.</p>
+                o additional content. This content is a little bit longer.</p>-->
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-secondary">Like</button>
+                  <ArtisteLike :portfolio-id="artiste.id" ></ArtisteLike>
                 </div>
-                <small class="text-body-secondary">9 mins</small>
+<!--                <small class="text-body-secondary">9 mins</small>-->
               </div>
             </div>
           </div>

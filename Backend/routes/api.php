@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,10 @@ Route::get('show/{id}',[\App\Http\Controllers\HomeController::class,'show']);
 
 Route::post('commentaires',[\App\Http\Controllers\CommentaireController::class,'store']);
 Route::get('/artistes/{artiste}/commentaires', [\App\Http\Controllers\CommentaireController::class, 'index']);
+
+Route::get('/artistes/{id}/like',[LikeController::class,'index']);
+Route::post('/artistes/{artiste}/like', [LikeController::class, 'store']);
+Route::delete('/artistes/{artiste}/like', [LikeController::class, 'destroy']);
 
 # Protected api
 Route::group(['middleware' => ['auth:sanctum']],function (){
